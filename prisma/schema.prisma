@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,86 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Artist {
+  Id        Int      @id @default(autoincrement())
+  name      String
+  genre     String
+  bio       String
+  imageUrl  String
+  createdAt DateTime @default(now())
+  Album     Album[]
+  Lyrics    Lyrics[]
+}
+
+model LyricsContents {
+  Id     Int      @id @default(autoincrement())
+  title  String
+  chorus String
+  verse1 String
+  verse2 String
+  verse3 String
+  verse4 String
+  verse5 String
+  verse6 String
+  Lyrics Lyrics[]
+
+  @@map("LyricsContents")
+}
+
+model Lyrics {
+  Id           Int      @id @default(autoincrement())
+  contentId    Int
+  albumId      Int
+  artistId     Int
+  categoryId   Int
+  audioFileUrl String
+  language     String
+  createdAt    DateTime @default(now())
+
+  Album          Album          @relation(fields: [albumId], references: [Id])
+  Artist         Artist         @relation(fields: [artistId], references: [Id])
+  Category       Category       @relation(fields: [categoryId], references: [Id])
+  LyricsContents LyricsContents @relation(fields: [contentId], references: [Id])
+  Favorites      Favorites[]
+}
+
+model Album {
+  Id            Int      @id @default(autoincrement())
+  title         String
+  artistId      Int
+  releaseDate   DateTime
+  coverImageUrl String
+  createdAt     DateTime @default(now())
+  Artist        Artist   @relation(fields: [artistId], references: [Id])
+  Lyrics        Lyrics[]
+}
+
+model Category {
+  Id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  Lyrics      Lyrics[]
+}
+
+model User {
+  Id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      String
+  phone     String
+  createdAt DateTime @default(now())
+
+  Favorites Favorites[]
+}
+
+model Favorites {
+  Id        Int      @id @default(autoincrement())
+  userId    Int
+  lyricsId  Int
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [Id])
+  Lyrics    Lyrics   @relation(fields: [lyricsId], references: [Id])
 }
