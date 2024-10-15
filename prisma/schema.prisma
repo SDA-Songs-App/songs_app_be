@@ -34,15 +34,14 @@ model LyricsContents {
 }
 
 model Lyrics {
-  Id           Int      @id @default(autoincrement())
-  contentId    Int
-  albumId      Int
-  artistId     Int
-  categoryId   Int
-  audioFileUrl String
-  language     String
-  createdAt    DateTime @default(now())
-
+  Id             Int            @id @default(autoincrement())
+  contentId      Int
+  albumId        Int
+  artistId       Int
+  categoryId     Int
+  audioFileUrl   String
+  language       LANGAUAGE      @default(ENGLISH)
+  createdAt      DateTime       @default(now())
   Album          Album          @relation(fields: [albumId], references: [Id])
   Artist         Artist         @relation(fields: [artistId], references: [Id])
   Category       Category       @relation(fields: [categoryId], references: [Id])
@@ -87,4 +86,17 @@ model Favorites {
   createdAt DateTime @default(now())
   User      User     @relation(fields: [userId], references: [Id])
   Lyrics    Lyrics   @relation(fields: [lyricsId], references: [Id])
+}
+
+enum LANGAUAGE {
+  ENGLISH
+  SIDAMA
+  AFAAN_OROMO
+  AHMARIC
+  GURAGIGNA
+  KEMBATISSA
+  WOLAITA
+  TIGRIGNA
+  HADYIGNA
+  NEUR
 }
