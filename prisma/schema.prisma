@@ -38,13 +38,12 @@ model Lyrics {
   contentId      Int
   albumId        Int
   artistId       Int
-  categoryId     Int
   audioFileUrl   String
-  language       LANGAUAGE      @default(ENGLISH)
+  language       LANGUAGES      @default(ENGLISH)
   createdAt      DateTime       @default(now())
   Album          Album          @relation(fields: [albumId], references: [Id])
   Artist         Artist         @relation(fields: [artistId], references: [Id])
-  Category       Category       @relation(fields: [categoryId], references: [Id])
+  Category       CATEGORIES     @default(THANKSGIVING)
   LyricsContents LyricsContents @relation(fields: [contentId], references: [Id])
   Favorites      Favorites[]
 }
@@ -60,19 +59,14 @@ model Album {
   Lyrics        Lyrics[]
 }
 
-model Category {
-  Id          Int      @id @default(autoincrement())
-  name        String
-  description String
-  Lyrics      Lyrics[]
-}
-
 model User {
   Id        Int      @id @default(autoincrement())
-  username  String   @unique
+  firstName String
+  LastName  String
+  userName  String //firstName + LastName
   email     String   @unique
   password  String
-  role      String
+  role      ROLES    @default(ADMIN)
   phone     String
   createdAt DateTime @default(now())
 
@@ -88,15 +82,33 @@ model Favorites {
   Lyrics    Lyrics   @relation(fields: [lyricsId], references: [Id])
 }
 
-enum LANGAUAGE {
+enum LANGUAGES {
   ENGLISH
   SIDAMA
   AFAAN_OROMO
-  AHMARIC
+  AMHARIC
   GURAGIGNA
   KEMBATISSA
   WOLAITA
   TIGRIGNA
   HADYIGNA
-  NEUR
+  NUER
+}
+
+enum CATEGORIES {
+  THANKSGIVING
+  CONFESS
+  PRAISE
+  PRAYER
+  CHRISTIAN_LIVING
+  DEVOTIONAL
+  WORSHIP
+  TESTIMONY
+  MISCELLANEOUS
+}
+
+enum ROLES {
+  ADMIN
+  SUPER_ADMIN
+  GUEST
 }
