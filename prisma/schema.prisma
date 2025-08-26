@@ -41,6 +41,8 @@ model Lyrics {
   audioFileUrl   String
   language       LANGUAGES      @default(ENGLISH)
   createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @default(now()) @updatedAt
+  deletedAt      DateTime?
   Album          Album          @relation(fields: [albumId], references: [Id])
   Artist         Artist         @relation(fields: [artistId], references: [Id])
   Category       CATEGORIES     @default(THANKSGIVING)
