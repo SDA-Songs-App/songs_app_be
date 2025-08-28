@@ -4,8 +4,6 @@ import { IsDate, IsEnum, IsInt, IsOptional, IsString } from "class-validator";
 
 export class CreateLyricsDto{
         @IsOptional() @IsInt()
-        contentId?:number
-        @IsOptional() @IsInt()
         albumId?:number
         @IsOptional() @IsInt()
         artistId?:number
@@ -15,4 +13,15 @@ export class CreateLyricsDto{
         language:LANGUAGES
         @IsEnum(CATEGORIES)
         category:CATEGORIES 
+        @IsOptional()
+        contents?:{
+         title?:string
+         chorus?:string
+         verse1?:string
+         verse2?:string
+         verse3?:string
+         verse4?:string
+         verse5?:string
+         verse6?:string
+        }[]
 }

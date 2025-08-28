@@ -79,21 +79,43 @@ async function main() {
   // Create Lyrics
   await prisma.lyrics.create({
     data: {
-      contentId: lyricsContent1.Id,
       albumId: album1.Id,
       artistId: artist1.Id,
       audioFileUrl: 'https://example.com/song-a.mp3',
       language: LANGUAGES.AMHARIC,
+      LyricsContents:{
+  create:{
+  title: 'በደመና ይመለሳል',
+  chorus: 'በደመና ይመለሳል በክብርም, ይመለሳል የወጉትም ያዩታል, ጌታ አይቀርም ይመጣል/2x/',
+  verse1:'ጽድቅ የሚኖርባትን አዲስ ምድር ሊያወርሰን, እንደ ተስፋ ቃሉ ወደ ክብሩ ሊያገባን, ይመጣል/3/ በእርግጥም ይመጣል::',
+  verse2:'የተስፋ ቃል የሰጠን እግዚአብሔር ታማኝ ነዉ, ሊፈጽመዉ ይችላል በትዕግሥት እንጠብቀዉ, በቃሉ በተስፋ ብንቆም መገለፁ አይቀርም::',
+  verse3:'ለብዙዎች መዳን እያለ ቢዘገይም, የተናገረዉን ቃል በፍፁም አያጥፈዉም, ይመጣል አይቀርም ይመጣል አይዋሽም ይመጣል::',
+  verse4:'መጨረሻዉ ተቃርቧል ጌታ የሱስ ይመጣል, ብለን ለሁሉ እናዉጅ ይህን የምስራች ቃል, ይመጣል ይመጣል እያልን እንናገር ምፃቱን::',
+  verse5: '',
+  verse6: '',
+  }
+      }
     },
   });
 
   await prisma.lyrics.create({
     data: {
-      contentId: lyricsContent2.Id,
       albumId: album2.Id,
       artistId: artist2.Id,
       audioFileUrl: 'https://example.com/song-b.mp3',
       language: LANGUAGES.AMHARIC,
+      LyricsContents:{
+        create:{
+      title: 'ኃይል ያለው በጉልበት ላይ ነው',
+      chorus: ' ኃይል ያለው በጉልበት ላይ ነው /2x/, መንበርከክ መፀለይ ካለ, ሁሉም ነገር በእጃችን አለ::',
+      verse1:'ሙሴ በኮሬብ ተራራ እግዚአብሄርን ያናገረው, በደመና ውስጥ ተከብቦ ክብሩን ማየት የቻለው, አርባ ቀንና አርባ ሌሊት በመፆም በመፀለይ ነው::',
+      verse2:'ሐና ለረጅም ዓመታት በምላስ ዱላ ተመትታ, ጣውንቷ ስታስጨንቃት ሁል ጊዜ ጧትና ማታ, ለአምላኳ ነግራ አልቅሳ ሳሙኤልን ሰጣት ጌታ::',
+      verse3:'ኤልያስ ሦስት ዓመት ሙሉ ዝናብ እንዳይወርድ የዘጋው, በእምነት በፀሎት ኃይል ነው አመፀኛውን ሕዝብ የቀጣው, ለነገሥታትና ለአህዛብ የአምላኩን ክንድ የገለጸው::',
+      verse4:'በአንበሳ ጉድጓድ ውስጥ አድሮ ዳርዮስ ጠርቶ የጠየቀው, ዳንኤል አሳደረህ ወይ አምላክህ የምታመልከው, አዎን ድኜ አድሬአለሁ አምላኬን አከብረዋለሁ::',
+      verse5: '',
+      verse6: '',
+        }
+      }
     },
   });
 
@@ -103,7 +125,7 @@ async function main() {
         firstName:"user1",
         LastName:"Thom",
       userName: 'user1',
-      email: 'userone@gmail.com',
+      email: 'userone1@gmail.com',
       password: 'password123',
       role: ROLES.GUEST,
       phone: '0923-456-789',
@@ -115,7 +137,7 @@ async function main() {
         firstName:"Test",
         LastName:"Adom",
       userName: 'admin Test',
-      email: 'admin@gmail.com',
+      email: 'admin2@gmail.com',
       password: 'password123',
       role: ROLES.ADMIN,
       phone: '987-654-3210',

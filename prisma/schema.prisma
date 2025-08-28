@@ -19,34 +19,34 @@ model Artist {
 }
 
 model LyricsContents {
-  Id     Int      @id @default(autoincrement())
-  title  String
-  chorus String
-  verse1 String
-  verse2 String
-  verse3 String
-  verse4 String
-  verse5 String
-  verse6 String
-  Lyrics Lyrics[]
+  Id       Int     @id @default(autoincrement())
+  lyricsId Int?
+  title    String?
+  chorus   String
+  verse1   String
+  verse2   String
+  verse3   String
+  verse4   String
+  verse5   String
+  verse6   String
+  Lyrics   Lyrics? @relation(fields: [lyricsId], references: [Id])
 
   @@map("LyricsContents")
 }
 
 model Lyrics {
-  Id             Int            @id @default(autoincrement())
-  contentId      Int
+  Id             Int              @id @default(autoincrement())
   albumId        Int
   artistId       Int
   audioFileUrl   String
-  language       LANGUAGES      @default(ENGLISH)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @default(now()) @updatedAt
+  language       LANGUAGES        @default(ENGLISH)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
   deletedAt      DateTime?
-  Album          Album          @relation(fields: [albumId], references: [Id])
-  Artist         Artist         @relation(fields: [artistId], references: [Id])
-  Category       CATEGORIES     @default(THANKSGIVING)
-  LyricsContents LyricsContents @relation(fields: [contentId], references: [Id])
+  Album          Album            @relation(fields: [albumId], references: [Id])
+  Artist         Artist           @relation(fields: [artistId], references: [Id])
+  Category       CATEGORIES       @default(THANKSGIVING)
+  LyricsContents LyricsContents[]
   Favorites      Favorites[]
 }
 
