@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { LyricsService } from './lyrics.service';
 import { CreateLyricsDto } from './dto/create-lyrics-dto';
 
@@ -16,5 +16,9 @@ export class LyricsController {
     @Get(':Id')
     findOne(@Param('Id') Id:string){
         return this.lyricsService.findLyricsById(+Id)
+    }
+    @Delete(':id')
+    delete(@Param('id', ParseIntPipe) id:string){
+        return this.lyricsService.deleteLyrics(+id);
     }
 }
