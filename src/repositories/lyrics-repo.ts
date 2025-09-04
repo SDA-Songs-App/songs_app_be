@@ -44,8 +44,14 @@ export class LyricsRepository{
         });
     }
     async findLyricsById(id:number){
+        const lyric = await this.prismaService.lyrics.findUnique({
+            where:{Id:id}
+        })
+        if(lyric.deletedAt){
+          throw new NotFoundException(`Lyrics with ID ${id} not found`)
+        }
         return await this.prismaService.lyrics.findUnique({
-            where:{Id:id, deletedAt:null}, include:{
+            where:{Id:id}, include:{
                 LyricsContents:true
             }})
     }
@@ -66,13 +72,25 @@ export class LyricsRepository{
       return await this.prismaService.lyrics.update({
         where:{Id :id},
         data:{
-            ...updateDto
-        },
-        include:{
-            Artist:true,
-            Album:true,
-            LyricsContents:true
-        }
+            language:updateDto.language,
+            Category:updateDto.category,
+            audioFileUrl:updateDto.audioFileUrl,
+            albumId:updateDto.albumId,
+            artistId:updateDto.artistId,
+             LyricsContents:{   
+                create: updateDto.LyricsContents.map((c) =>({
+                                  verse1:c.verse1,
+                                  verse2:c.verse2,
+                                  verse3:c.verse3,
+                                  verse4:c.verse4,
+                                  verse5:c.verse5,
+                                  verse6:c.verse6,
+                                  chorus:c.chorus,
+                                  title:c.title
+                               }))},  
+            },include:{
+                LyricsContents:true
+            }
       })
     }
     async restoreDeletedLyrics(id:number){

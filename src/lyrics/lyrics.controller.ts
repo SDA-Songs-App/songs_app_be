@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { LyricsService } from './lyrics.service';
 import { CreateLyricsDto } from './dto/create-lyrics-dto';
+import { UpdateLyricsDto } from './dto/update-lyrics-dto';
 
 @Controller('lyrics')
 export class LyricsController {
@@ -20,5 +21,9 @@ export class LyricsController {
     @Delete(':id')
     delete(@Param('id', ParseIntPipe) id:string){
         return this.lyricsService.deleteLyrics(+id);
+    }
+    @Patch(':id')
+    update(@Param('id', ParseIntPipe) id:string, @Body() updateDto:UpdateLyricsDto){
+       return this.lyricsService.update(+id,updateDto)
     }
 }

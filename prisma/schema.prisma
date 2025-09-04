@@ -22,13 +22,13 @@ model LyricsContents {
   Id       Int     @id @default(autoincrement())
   lyricsId Int?
   title    String?
-  chorus   String
-  verse1   String
-  verse2   String
-  verse3   String
-  verse4   String
-  verse5   String
-  verse6   String
+  chorus   String?
+  verse1   String?
+  verse2   String?
+  verse3   String?
+  verse4   String?
+  verse5   String?
+  verse6   String?
   Lyrics   Lyrics? @relation(fields: [lyricsId], references: [Id])
 
   @@map("LyricsContents")
