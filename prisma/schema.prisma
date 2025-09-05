@@ -19,19 +19,34 @@ model Artist {
 }
 
 model LyricsContents {
-  Id       Int     @id @default(autoincrement())
-  lyricsId Int?
-  title    String?
-  chorus   String
-  verse1   String
-  verse2   String
-  verse3   String
-  verse4   String
-  verse5   String
-  verse6   String
-  Lyrics   Lyrics? @relation(fields: [lyricsId], references: [Id])
-
+  Id          Int     @id @default(autoincrement())
+  lyricsId    Int?
+  languageKey String?
+  title       String?
+  chorus      String
+  verse1      String
+  verse2      String
+  verse3      String
+  verse4      String
+  verse5      String
+  verse6      String
+  Lyrics      Lyrics? @relation(fields: [lyricsId], references: [Id])
+  localization Localizations?  @relation(fields: [languageKey], references: [language_key])
   @@map("LyricsContents")
+}
+
+model Localizations {
+  Id                      Int    @id @default(autoincrement())
+  language_key            String @unique
+  Header                  String
+  notFound                String
+  author                  String
+  CopyErrorTitle          String
+  CopyErrorDescription    String
+  LyricsCopiedTitle       String
+  LyricsCopiedDescription String
+  lyricsContents LyricsContents[]
+  @@map("Localizations")
 }
 
 model Lyrics {
