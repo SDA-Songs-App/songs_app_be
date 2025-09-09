@@ -27,6 +27,7 @@ async findMany(){
  if(!data){
     throw new NotFoundException('No Data found')
  }
+ return data;
 }
 async update(id:number, createDto:CreateLocalizationDto){
  const localData = await this.prsimaService.localizations.findUnique({
