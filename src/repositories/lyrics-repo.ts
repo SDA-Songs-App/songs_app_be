@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma-service";
+import { LANGUAGE_MAP } from "src/config/lanaguage-mapping";
 import { CreateLyricsDto } from "src/lyrics/dto/create-lyrics-dto";
 import { UpdateLyricsDto } from "src/lyrics/dto/update-lyrics-dto";
 
@@ -35,15 +36,30 @@ export class LyricsRepository{
          })
     }
     async findAllLyrics(){
-        return await this.prismaService.lyrics.findMany({
-            where:{deletedAt:null},
+       const songs = await this.prismaService.lyrics.findMany({
             orderBy:{createdAt:'desc'},
             include:{
                 LyricsContents:true
             }
         });
+ const mappedSongs = songs.map((song) => {
+   const langKey = song.language?.toString().trim().toUpperCase();
+    const mappedLang = LANGUAGE_MAP[langKey] || song.language;
+
+    return {
+      ...song,
+      language: mappedLang,
+    };
+  });
+  return mappedSongs
     }
     async findLyricsById(id:number){
+        return await this.prismaService.lyrics.findUnique({
+            where:{Id:id, deletedAt:null}, include:{
+                LyricsContents:true
+            }})
+    }
+     async findLyricsByName(id:number){
         return await this.prismaService.lyrics.findUnique({
             where:{Id:id, deletedAt:null}, include:{
                 LyricsContents:true

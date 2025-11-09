@@ -8,10 +8,24 @@ import { AlbumModule } from './album/album.module';
 import { SongCategoriesModule } from './song-categories/song-categories.module';
 import { LocalizationController } from './localization/localization.controller';
 import { LocalizationModule } from './localization/localization.module';
+import { ArtistController } from './artist/artist.controller';
+import { ArtistService } from './artist/artist.service';
+import { ArtistModule } from './artist/artist.module';
+import { ArtistRepository } from './repositories/artist-repo';
 
 @Module({
-  imports: [UsersModule, LyricsModule, LyricsContentsModule, AlbumModule, SongCategoriesModule, LocalizationModule],
-  controllers: [AppController, LocalizationController],
+  imports: [
+    UsersModule, 
+    LyricsModule, 
+    LyricsContentsModule, 
+    AlbumModule, 
+    SongCategoriesModule, 
+    LocalizationModule, 
+    ArtistModule],
+  controllers: [
+    AppController, 
+    LocalizationController, 
+    ],
   providers: [AppService],
 })
 export class AppModule {}

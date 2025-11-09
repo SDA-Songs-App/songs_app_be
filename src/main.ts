@@ -11,7 +11,7 @@ async function bootstrap() {
         transform:true
       }),)
   app.enableCors();
-  await app.listen(3000, 'localhost');
-  console.log(`The application is running on: ${await app.getUrl()}`)
+    await app.listen(3001, '0.0.0.0');
+      console.log(`The Application is running on:${await app.getUrl()}`);
 }
 bootstrap();
