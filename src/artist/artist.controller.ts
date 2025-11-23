@@ -17,7 +17,7 @@ export class ArtistController {
 
   @Post()
   create(@Body() dto: CreateArtistDto, id:number) {
-    return this.artistService.create(dto, id);
+    return this.artistService.create(dto);
   }
 
   @Get()

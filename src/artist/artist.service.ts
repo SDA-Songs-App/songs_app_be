@@ -6,8 +6,8 @@ import { CreateArtistDto } from './dto/create-artist-dto';
 export class ArtistService {
   constructor(private readonly artistRepository: ArtistRepository) {}
 
-  create(dto: CreateArtistDto, id:number) {
-    return this.artistRepository.create(dto, id);
+  create(dto: CreateArtistDto) {
+    return this.artistRepository.create(dto);
   }
 
   findAllArtists() {

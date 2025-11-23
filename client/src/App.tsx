@@ -4,10 +4,13 @@ import './App.css';
 import { Form, Route, Routes } from 'react-router-dom';
 import SongList from './components/songsList'
 import SongForm from './components/form'
+import ArtistForm from './components/formArtist';
 function App() {
   return (
     <Routes>
-      <Route path='/add' element = {<Form/>}></Route>
+      <Route path="/" element={<SongList />} />
+      <Route path='/addLyrics' element = {<SongForm/>}></Route>
+      <Route path='/addArtist' element ={<ArtistForm />}> </Route>
     </Routes>
    
   );

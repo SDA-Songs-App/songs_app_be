@@ -1,0 +1,29 @@
+
+.container{
+    max-width: 650px;
+    margin:40px auto;
+    padding:25px;
+    text-align: center;
+}
+.container h1{
+    font-size: 30px;
+    font-weight: bold;
+    color:#2342;
+    margin-bottom: 30px;
+}
+.actionsButtons {
+    padding:12px 20px;
+    border:none;
+    font-size: 16px;
+    background: #28a745;
+    color:white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+.actions-buttons button:hover {
+    background-color: #1f7a33;
+}
+.actions-buttons .add-lyrics:hover{
+    background-color: #0056b3;
+}
