@@ -8,7 +8,9 @@ import { UpdateLyricsDto } from "src/lyrics/dto/update-lyrics-dto";
 export class LyricsRepository{
     constructor(private prismaService:PrismaService){}
     async create(createDto:CreateLyricsDto){
+        const langKey = createDto.language ==="SIDAMA"?"ሲዳሚኛ":""
          return await this.prismaService.lyrics.create({
+            
             data:{
               albumId:createDto.albumId,
               artistId:createDto.artistId,
@@ -37,6 +39,7 @@ export class LyricsRepository{
     }
     async findAllLyrics(){
        const songs = await this.prismaService.lyrics.findMany({
+        where:{deletedAt:null},
             orderBy:{createdAt:'desc'},
             include:{
                 LyricsContents:true
