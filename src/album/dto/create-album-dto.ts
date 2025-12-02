@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 
 export class CreateAlbumDto {
+
   @IsOptional()
   @IsString()
   @IsNotEmpty()
@@ -22,4 +23,5 @@ export class CreateAlbumDto {
   @IsOptional()
   @IsString()
   coverImageUrl?: string;
+  
 }
