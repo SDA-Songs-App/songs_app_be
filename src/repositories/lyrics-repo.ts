@@ -3,13 +3,17 @@ import { PrismaService } from "prisma/prisma-service";
 import { LANGUAGE_MAP } from "src/config/lanaguage-mapping";
 import { CreateLyricsDto } from "src/lyrics/dto/create-lyrics-dto";
 import { UpdateLyricsDto } from "src/lyrics/dto/update-lyrics-dto";
+import { SocketGateway } from "src/web-socket/socket.gateway";
 
 @Injectable()
 export class LyricsRepository{
-    constructor(private prismaService:PrismaService){}
+    constructor(
+        private prismaService:PrismaService,
+        private socket:SocketGateway){}
+        
     async create(createDto:CreateLyricsDto){
-        const langKey = createDto.language ==="SIDAMA"?"ሲዳሚኛ":""
-         return await this.prismaService.lyrics.create({
+       
+         const dataCreacted = await this.prismaService.lyrics.create({
             
             data:{
               albumId:createDto.albumId,
@@ -36,6 +40,9 @@ export class LyricsRepository{
                 LyricsContents:true
             }
          })
+          this.socket.broadcastDataupdated({type:'create', item:dataCreacted})
+          return dataCreacted;
+         
     }
     async findAllLyrics(){
        const songs = await this.prismaService.lyrics.findMany({

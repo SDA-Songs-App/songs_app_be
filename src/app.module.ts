@@ -12,6 +12,7 @@ import { ArtistController } from './artist/artist.controller';
 import { ArtistService } from './artist/artist.service';
 import { ArtistModule } from './artist/artist.module';
 import { ArtistRepository } from './repositories/artist-repo';
+import { WebSocketModule } from './web-socket/websocket.module';
 
 @Module({
   imports: [
@@ -21,7 +22,10 @@ import { ArtistRepository } from './repositories/artist-repo';
     AlbumModule, 
     SongCategoriesModule, 
     LocalizationModule, 
-    ArtistModule],
+    ArtistModule, 
+    WebSocketModule
+  ],
+    
   controllers: [
     AppController, 
     LocalizationController, 

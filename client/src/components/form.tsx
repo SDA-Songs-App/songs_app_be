@@ -151,115 +151,96 @@ const handleChange = (
 }
  }
   return (
-    <div className="form-container">
-      <h2>Add New Lyrics</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Title</label>
-        <input 
-          type="text" 
-          value={formData.contents[0].title}
-          onChange={(e) =>handleChange(e, 0, "title")} />
+  <div className="lyrics-form-container">
+    <h2 className="form-title">📝 Add New Lyrics</h2>
 
-        <label>Artist</label>
-<select 
-      name="artistId" 
-      value={formData.artistId || ""}
-      onChange={handleChange}
-      >
-  <option 
-       value="">Select Artist</option>
-       {artists.map((artist) => (
-    <option key={artist.Id} value={artist.Id}>
-      {artist.name}
-    </option>
-  ))}
-</select>
- {/* Album */}
-        <label>Album</label>
-        <select
-          name="albumId"
-          value={formData.albumId || ""}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Album</option>
-          {albums.map((album) => (
-            <option key={album.Id} value={album.Id}>
-              {album.title}
-            </option>
-          ))}
-        </select>
-<label>Category</label>
-        <select name="category" onChange={handleChange}>
-  <option value="">Select Category</option>
-  {Object.values(CATEGORIES).map((cat) => (
-    <option key={cat} value={cat}>
-      {cat.replace("_", " ")}
-    </option>
-  ))}
-</select>
-    <label>Audio File</label>
-    <input 
-      type="file" 
+    <form className="lyrics-form" onSubmit={handleSubmit}>
       
-      name="audioFileUrl" 
-      accept = "audio/*"
-      onChange={handleChange} 
-    />
-        <label>Language</label>
-        <select name="language" onChange={handleChange}>
-          <option value="">Select Language</option>
-          {Object.keys(LANGUAGES)
-          .filter(cat=>isNaN(Number(cat)))
-           .map((lang)=>(
-                <option key={lang} value={lang}>
-                   {lang.replace(/_/g, " ")} 
-                   </option>
-              ))}                        
-        </select>
-        <label>Chorus</label>
-        <textarea 
-          value={formData.contents[0].chorus}
-          onChange={(e)=>handleChange(e, 0, "chorus")}>
-        </textarea>
-        <label>Verse 1</label>
-        <textarea 
-          name="verse1" 
-          value={formData.contents[0].verse1}
-          onChange={(e)=>handleChange(e, 0, "verse1")}>
-        </textarea>
-        <label>Verse 2</label>
-        <textarea 
-          value={formData.contents[0].verse2}
-          onChange={(e)=>handleChange(e, 0, "verse2")}>
-        </textarea>
+      <div className="grid-2">
+        <div>
+          <label>Song Title</label>
+          <input
+            type="text"
+            value={formData.contents[0].title}
+            onChange={(e) => handleChange(e, 0, "title")}
+          />
+        </div>
 
-        <label>Verse 3</label>
-        <textarea 
-          value={formData.contents[0].verse3}
-          onChange={(e)=>handleChange(e, 0, "verse3")}>
-        </textarea>
+        <div>
+          <label>Artist</label>
+          <select name="artistId" value={formData.artistId} onChange={handleChange}>
+            <option value="">Select Artist</option>
+            {artists.map((artist) => (
+              <option key={artist.Id} value={artist.Id}>{artist.name}</option>
+            ))}
+          </select>
+        </div>
+      </div>
 
-        <label>Verse 4</label>
-        <textarea 
-          value={formData.contents[0].verse4}
-          onChange={(e)=>handleChange(e, 0, "verse4")}>
-        </textarea>
+      <div className="grid-2">
+        <div>
+          <label>Album</label>
+          <select name="albumId" value={formData.albumId} onChange={handleChange}>
+            <option value="">Select Album</option>
+            {albums.map((alb) => (
+              <option key={alb.Id} value={alb.Id}>{alb.title}</option>
+            ))}
+          </select>
+        </div>
 
-        <label>Verse 5</label>
-        <textarea 
-          value={formData.contents[0].verse5}
-          onChange={(e)=>handleChange(e, 0, "verse5")}>
-        </textarea>
-        <label>Verse 6</label>
-        <textarea 
-          value={formData.contents[0].verse6}
-          onChange={(e)=>handleChange(e, 0, "verse6")}>
-        </textarea>
-        <button type="submit">Save Lyrics</button>
-      </form>
-    </div>
-  );
+        <div>
+          <label>Language</label>
+          <select name="language" onChange={handleChange}>
+            <option value="">Select Language</option>
+            {Object.keys(LANGUAGES)
+              .filter((cat) => isNaN(Number(cat)))
+              .map((lang) => (
+                <option key={lang} value={lang}>{lang.replace(/_/g, " ")}</option>
+              ))}
+          </select>
+        </div>
+      </div>
+
+      <label>Category</label>
+      <select name="category" onChange={handleChange}>
+        <option value="">Select Category</option>
+        {Object.values(CATEGORIES).map((cat) => (
+          <option key={cat} value={cat}>
+            {cat.replace("_", " ")}
+          </option>
+        ))}
+      </select>
+
+      <label>Upload Audio</label>
+      <input type="file" accept="audio/*" onChange={handleChange} />
+
+      <label>Chorus</label>
+      <textarea
+        value={formData.contents[0].chorus}
+        onChange={(e) => handleChange(e, 0, "chorus")}
+      />
+
+      <div className="verses-grid">
+        {[1, 2, 3, 4, 5, 6].map((v) => {
+          const field = `verse${v}` as keyof LyricsContent;
+          return(
+          <div key={v}>
+            <label>Verse {v}</label>
+            <textarea
+              value={formData.contents[0][field]}
+              onChange={(e) => handleChange(e, 0, `verse${v}` as any)}
+            />
+          </div>);
+})}
+      </div>
+
+      <button className="submit-btn" type="submit">
+        💾 Save Lyrics
+      </button>
+    </form>
+  </div>
+);
+
 };
 
 export default SongForm;
