@@ -13,6 +13,16 @@ import { ArtistService } from './artist/artist.service';
 import { ArtistModule } from './artist/artist.module';
 import { ArtistRepository } from './repositories/artist-repo';
 import { WebSocketModule } from './web-socket/websocket.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { PrismaService } from 'prisma/prisma-service';
+import { AuthModule } from './auth/auth.module';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
+import { NotificationsController } from './notifications/notifications.controller';
+import { NotificationsService } from './notifications/notifications.service';
+import { NotificationsModule } from './notifications/notifications.module';
+
 
 @Module({
   imports: [
@@ -23,13 +33,22 @@ import { WebSocketModule } from './web-socket/websocket.module';
     SongCategoriesModule, 
     LocalizationModule, 
     ArtistModule, 
-    WebSocketModule
+    WebSocketModule, 
+    AuthModule,
+    ConfigModule.forRoot({isGlobal:true}),
+    NotificationsModule
   ],
     
   controllers: [
     AppController, 
     LocalizationController, 
+    AuthController, 
+    NotificationsController, 
     ],
-  providers: [AppService],
+  providers: [
+    PrismaService,
+    AppService, 
+    NotificationsService]
+ //   AuthService, JwtService],
 })
 export class AppModule {}

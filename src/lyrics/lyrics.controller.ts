@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { LyricsService } from './lyrics.service';
 import { CreateLyricsDto } from './dto/create-lyrics-dto';
 
@@ -21,4 +21,16 @@ export class LyricsController {
     delete(@Param('id', ParseIntPipe) id:string){
         return this.lyricsService.deleteLyrics(+id);
     }
+    @Patch(':id/toggle')
+    async toggleSongStatus(@Param('id') id: number) {
+        this.lyricsService.toggleSongStatus(id)
+    }
+     @Patch(':id/status')
+  async updateLyricStatus(
+    @Param('id') id: string,
+    @Body() body: { lyricId: number; status: 'APPROVED' | 'REJECTED' },
+  ) {
+    const { lyricId, status } = body;
+    return this.lyricsService.updateLyricStatus(lyricId, status);
+  }
 }

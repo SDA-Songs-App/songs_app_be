@@ -1,25 +1,35 @@
 import { 
+    ConnectedSocket,
+    MessageBody,
+    SubscribeMessage,
     WebSocketGateway,
     WebSocketServer,
-    OnGatewayConnection, 
-    OnGatewayDisconnect } from "@nestjs/websockets";
-import {Server} from 'socket.io'
+     } from "@nestjs/websockets";
+
+import {Server, Socket} from 'socket.io'
 
 @WebSocketGateway({
     cors:{origin:'*'},
 })
-export class SocketGateway implements 
-OnGatewayConnection, OnGatewayDisconnect{
+export class SocketGateway{
     @WebSocketServer()
     server:Server
-    handleConnection(client: any, ...args: any[]) {
-        console.log("Client connected", client.id);
+    @SubscribeMessage('hello')
+    handleHello( @MessageBody() data: any, @ConnectedSocket() client:Socket) {
+        client.emit('hello', `hello ${data.name}`)
     }
-    handleDisconnect(client: any) {
-        console.log('client disconnected', client.id);
+   notifyAll(event:string, payload:any){
+    this.server.emit(event, payload)
+   }
+    notifyUser(userId:number, event:string, payload:any){
+      const socketId = this.getSocketById(userId)
+      if(socketId) this.server.to(socketId).emit(event, payload)
     }
-    broadcastDataupdated(data:any){
-        this.server.emit('Lyrics updated', data)
+    private userSocket = new Map<number, string>()
+    setUserSocket(userId:number, socketId:string){
+        this.userSocket.set(userId, socketId)
     }
-    
+    getSocketById(userId:number){
+        return this.userSocket.get(userId)
+    }
 }

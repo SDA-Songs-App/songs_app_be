@@ -13,7 +13,7 @@ export class LyricsRepository{
         
     async create(createDto:CreateLyricsDto){
        
-         const dataCreacted = await this.prismaService.lyrics.create({
+         const dataCreated = await this.prismaService.lyrics.create({
             
             data:{
               albumId:createDto.albumId,
@@ -23,6 +23,7 @@ export class LyricsRepository{
               Category:createDto.category,
               LyricsContents:createDto.contents?.length 
                                ? {create: createDto.contents.map(c =>({
+                                 status:'PENDING',
                                   verse1:c.verse1,
                                   verse2:c.verse2,
                                   verse3:c.verse3,
@@ -40,16 +41,34 @@ export class LyricsRepository{
                 LyricsContents:true
             }
          })
-          this.socket.broadcastDataupdated({type:'create', item:dataCreacted})
-          return dataCreacted;
+         const createdContent = dataCreated.LyricsContents[0];
+
+     //     this.socket.broadcastDataupdated({type:'create', item:dataCreacted})
+         //create notification
+        // const firstContentId = createDto.contents[0].Id;
+
+       const notif=  await this.prismaService.notifications.create({
+            data:{
+                songId:createdContent.Id,
+                type:'SONG-PENDING',
+                message:`New Song ${createDto.contents[0].title} added`,
+            }
+         })
+         console.log("Notification", notif)
+         // Soccket 
+        this .socket.notifyAll('notification: new', {
+              message:`new song "${createDto.contents[0].title}" added`
+        })
+          return dataCreated;
          
     }
     async findAllLyrics(){
        const songs = await this.prismaService.lyrics.findMany({
-        where:{deletedAt:null},
+        where:{},
             orderBy:{createdAt:'desc'},
             include:{
-                LyricsContents:true
+                LyricsContents:true, 
+                Artist:true
             }
         });
  const mappedSongs = songs.map((song) => {
@@ -64,9 +83,11 @@ export class LyricsRepository{
   return mappedSongs
     }
     async findLyricsById(id:number){
-        return await this.prismaService.lyrics.findUnique({
-            where:{Id:id, deletedAt:null}, include:{
-                LyricsContents:true
+        return await this.prismaService.lyrics.findFirst({
+            where:{Id:id}, 
+            include:{
+                LyricsContents:true, 
+                Artist:true
             }})
     }
      async findLyricsByName(id:number){
@@ -107,4 +128,45 @@ export class LyricsRepository{
             data:{deletedAt:null}
         })
     }
+    async approve(id:number){
+        const song = await this.prismaService.lyrics.update({
+            where:{Id:id}, 
+            data:{ 
+                LyricsContents:{
+                    updateMany:{
+                        where:{},
+                        data:{
+                            status:'APPROVED',
+                        }
+                    }, 
+                  
+                },
+                updatedAt:new Date()
+        }, include:{
+            LyricsContents:true,
+        }
+        })
+        this.socket.notifyAll('song:approved', {songId:song.Id})
+        return song;
+    }
+    async getApproved(after?:Date){
+        const where:any = {status:'APPROVED', deletedAt:null}
+        if(after) where.updatedAt = {gt:after};
+        return this.prismaService.lyrics.findMany({
+            where
+        })
+    }
+    async getNotifications(userId:number){
+        return this.prismaService.notifications.findMany({
+            where:{userId}, 
+            orderBy:{createdAt:'desc'}
+        })
+    }
+    
+  async updateLyricStatus(lyricId: number, status: 'APPROVED' | 'REJECTED') {
+    return this.prismaService.lyricsContents.update({
+      where: { Id: lyricId },
+      data: { status, approvedAt: status === 'APPROVED' ? new Date() : null },
+    });
+  }
 } 

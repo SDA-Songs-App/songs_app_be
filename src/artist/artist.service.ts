@@ -21,4 +21,5 @@ export class ArtistService {
   deleteArtist(id: number) {
     return this.artistRepository.delete(id);
   }
+  
 }

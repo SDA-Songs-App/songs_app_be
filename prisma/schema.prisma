@@ -20,19 +20,24 @@ model Artist {
 }
 
 model LyricsContents {
-  Id           Int            @id @default(autoincrement())
-  lyricsId     Int?
-  languageKey  String?
-  title        String?
-  chorus       String
-  verse1       String
-  verse2       String
-  verse3       String
-  verse4       String
-  verse5       String
-  verse6       String
-  Lyrics       Lyrics?        @relation(fields: [lyricsId], references: [Id])
-  localization Localizations? @relation(fields: [languageKey], references: [language_key])
+  Id            Int             @id @default(autoincrement())
+  lyricsId      Int?
+  languageKey   String?
+  status        LyricsStatus?
+  approvedAt    DateTime?
+  title         String?
+  chorus        String
+  verse1        String
+  verse2        String
+  verse3        String
+  verse4        String
+  verse5        String
+  verse6        String
+  Lyrics        Lyrics?         @relation(fields: [lyricsId], references: [Id])
+  localization  Localizations?  @relation(fields: [languageKey], references: [language_key])
+  approvedById  Int?
+  approvedBy    User?           @relation("ApprovedLyrics", fields: [approvedById], references: [Id])
+  Notifications Notifications[]
 
   @@map("LyricsContents")
 }
@@ -68,6 +73,12 @@ model Lyrics {
   Favorites      Favorites[]
 }
 
+enum LyricsStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model Album {
   Id            Int       @id @default(autoincrement())
   title         String
@@ -81,17 +92,18 @@ model Album {
 }
 
 model User {
-  Id        Int      @id @default(autoincrement())
-  firstName String
-  LastName  String
-  userName  String //firstName + LastName
-  email     String   @unique
-  password  String
-  role      ROLES    @default(ADMIN)
-  phone     String
-  createdAt DateTime @default(now())
-
-  Favorites Favorites[]
+  Id             Int              @id @default(autoincrement())
+  firstName      String
+  LastName       String
+  userName       String //firstName + LastName
+  email          String           @unique
+  password       String
+  role           ROLES            @default(ADMIN)
+  phone          String
+  createdAt      DateTime         @default(now())
+  Notifications  Notifications[]
+  Favorites      Favorites[]
+  LyricsContents LyricsContents[] @relation("ApprovedLyrics")
 }
 
 model Favorites {
@@ -101,6 +113,19 @@ model Favorites {
   createdAt DateTime @default(now())
   User      User     @relation(fields: [userId], references: [Id])
   Lyrics    Lyrics   @relation(fields: [lyricsId], references: [Id])
+}
+
+model Notifications {
+  id           Int             @id @default(autoincrement())
+  type         String
+  message      String
+  songId       Int?
+  isRead       Boolean         @default(false)
+  createdAt    DateTime        @default(now())
+  superAdminId Int?
+  userId       Int?
+  User         User?           @relation(fields: [userId], references: [Id])
+  Content      LyricsContents? @relation(fields: [songId], references: [Id])
 }
 
 enum LANGUAGES {
