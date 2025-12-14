@@ -1,5 +1,5 @@
 import axios from "axios"
-const API_URL = "http://[::1]:3000/";
+const API_URL = "http://localhost:3000/";
 export const getSongs = ()=>axios.get(API_URL/lyrics);
 export const getSongById = (id) =>axios.get(`${API_URL}/lyrics/${id}`)
 export const addSong = (songData) => axios.post(API_URL/lyrics, songData)

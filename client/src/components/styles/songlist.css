@@ -119,14 +119,14 @@
 }
 
 .songs-table th {
-  background: #4a4a4a;
-  color: white;
-  padding: 12px;
-  text-align: left;
+  background: #ce7878;
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
 }
 
 .songs-table td {
-  padding: 12px;
+  padding: 10px;
   border-bottom: 1px solid #e5e5e5;
 }
 
@@ -190,7 +190,7 @@
 }
 
 .actions-cell {
-  display: flex;
+  display: contents;
   gap: 8px;
 }
 
@@ -232,5 +232,192 @@
 .activate-btn:hover {
   background-color: #43a047;
 }
+/* Notifications Dropdown */
+.notifications-dropdown {
+  position: absolute;
+  top: 10%;
+  right: 540px;
+  width: 260px;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  padding: 0;
+  margin: 0;
+  z-index: 1000;
+}
+
+.notification-item {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fffceb;
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-item:last-child {
+  border-bottom: 0;
+}
+
+.notification-text {
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.notification-view-btn {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: 0.3s;
+}
+
+.notification-view-btn:hover {
+  background-color: #ffb400;
+}
+
+.empty-notification {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+.notification-btn{
+  
+          padding: 10px 22px;
+          font-size: 16px;
+          font-weight: 600;
+          color: white;
+          background: linear-gradient(45deg, #ff5200, #ff7a18);
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: 0.3s ease-in-out;
+          box-shadow: 0 4px 14px rgba(255, 120, 40, 0.4);
+}
+.logout-btn {
+  padding: 10px 22px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(45deg, #ff5200, #ff7a18);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 4px 14px rgba(255, 120, 40, 0.4);
+}
+.logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(255, 120, 40, 0.8);
+}
+.action-btn {
+  background: linear-gradient(135deg, #ffcf62, #ffb344);
+  border: none;
+  padding: 0.7rem 1.25rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #3a2e0d;
+  transition: 0.3s ease-in-out;
+}
+
+.action-btn:hover {
+  box-shadow: 0 4px 12px rgba(255, 171, 25, 0.4);
+  transform: translateY(-1px);
+}
+
+.action-count {
+  background: #d9534f;
+  color: #fff;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.caret {
+  transition: 0.2s ease;
+}
+
+.caret.open {
+  transform: rotate(180deg);
+}
+
+.action-dropdown {
+  position: absolute;
+  top: 70px;
+  right: 540px;
+  width: 300px;
+  max-height: 330px;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  padding: 0;
+  margin: 0;
+  animation: dropdownSlide 0.25s ease;
+}
+
+@keyframes dropdownSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-header {
+  padding: 0.9rem 1.2rem;
+  font-weight: 700;
+  font-size: 18px;
+  background: #fff6dc;
+  color: #7c6200;
+  border-bottom: 1px solid #eee;
+  border-radius: 12px 12px 0 0;
+}
+
+.empty-text {
+  padding: 1rem;
+  font-size: 14px;
+  color: #8f8f8f;
+}
+
+.action-item {
+  list-style: none;
+  padding: 1rem;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 14px;
+}
+
+.action-item:last-child {
+  border-bottom: none;
+}
+
+.notification-view-btn {
+  margin-top: 10px;
+  background: #0044cc;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.notification-view-btn:hover {
+  background: #002c80;
+}
+
+
+
+
 
 
