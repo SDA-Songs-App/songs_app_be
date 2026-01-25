@@ -54,3 +54,11 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+tree-canvas.tsx
+tree-menu.ts
+branch-node.tsx
+content-panael.tsx
+MainTree.tsx
+tree.ts
+Tree-site/
+data/

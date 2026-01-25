@@ -17,7 +17,6 @@ const AlbumForm = () => {
     releaseDate: "",
     coverImageUrl: "",
   });
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -83,7 +82,7 @@ const AlbumForm = () => {
         />
 
         <button type="submit">Save Album</button>
-      </form>
+      </form>   
     </div>
   );
 };

@@ -152,10 +152,7 @@ const handleChange = (
  }
   return (
   <div className="lyrics-form-container">
-    <h2 className="form-title">📝 Add New Lyrics</h2>
-
-    <form className="lyrics-form" onSubmit={handleSubmit}>
-      
+  <form className="lyrics-form" onSubmit={handleSubmit}>
       <div className="grid-2">
         <div>
           <label>Song Title</label>
@@ -175,12 +172,12 @@ const handleChange = (
             ))}
           </select>
         </div>
-      </div>
-
-      <div className="grid-2">
         <div>
           <label>Album</label>
-          <select name="albumId" value={formData.albumId} onChange={handleChange}>
+          <select 
+             name="albumId" 
+             value={formData.albumId} 
+             onChange={handleChange}>
             <option value="">Select Album</option>
             {albums.map((alb) => (
               <option key={alb.Id} value={alb.Id}>{alb.title}</option>
@@ -190,7 +187,10 @@ const handleChange = (
 
         <div>
           <label>Language</label>
-          <select name="language" onChange={handleChange}>
+          <select 
+              name="language" 
+              value={formData.language}
+              onChange={handleChange}>
             <option value="">Select Language</option>
             {Object.keys(LANGUAGES)
               .filter((cat) => isNaN(Number(cat)))
@@ -199,27 +199,34 @@ const handleChange = (
               ))}
           </select>
         </div>
-      </div>
-
-      <label>Category</label>
-      <select name="category" onChange={handleChange}>
-        <option value="">Select Category</option>
-        {Object.values(CATEGORIES).map((cat) => (
-          <option key={cat} value={cat}>
-            {cat.replace("_", " ")}
-          </option>
-        ))}
-      </select>
-
-      <label>Upload Audio</label>
-      <input type="file" accept="audio/*" onChange={handleChange} />
-
+      
+     <div>
+        <label>Category</label>
+        <select 
+          name="category" 
+          value={formData.category}
+          onChange={handleChange}>
+          <option value="">Select Category</option>
+          {Object.values(CATEGORIES).map((cat) => (
+            <option key={cat} value={cat}>
+              {cat.replace("_", " ")}
+            </option>
+          ))}
+        </select>
+     </div>
+      {/* <div>
+        <label>Upload Audio</label>
+        <input type="file" accept="audio/*" onChange={handleChange} />
+      </div> */}
+       </div>
+      <div className="chorus">
       <label>Chorus</label>
       <textarea
         value={formData.contents[0].chorus}
         onChange={(e) => handleChange(e, 0, "chorus")}
       />
-
+    </div>
+   
       <div className="verses-grid">
         {[1, 2, 3, 4, 5, 6].map((v) => {
           const field = `verse${v}` as keyof LyricsContent;

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Delete, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma-service";
 import { LANGUAGE_MAP } from "src/config/lanaguage-mapping";
 import { CreateLyricsDto } from "src/lyrics/dto/create-lyrics-dto";
@@ -12,9 +12,7 @@ export class LyricsRepository{
         private socket:SocketGateway){}
         
     async create(createDto:CreateLyricsDto){
-       
-         const dataCreated = await this.prismaService.lyrics.create({
-            
+         const dataCreated = await this.prismaService.lyrics.create({ 
             data:{
               albumId:createDto.albumId,
               artistId:createDto.artistId,
@@ -168,5 +166,43 @@ export class LyricsRepository{
       where: { Id: lyricId },
       data: { status, approvedAt: status === 'APPROVED' ? new Date() : null },
     });
+  }
+  async syncLyrics(since?:string){
+     const sinceDate = since? new Date(since): new Date(0)
+     const updated = await this.prismaService.lyrics.findMany({
+        where:{
+            updatedAt:{gt:sinceDate},
+            deletedAt:null
+        },
+        include:{
+            LyricsContents:true,
+            Artist:true,
+            Album:true
+        }
+     })
+     const deleted = await this.prismaService.lyrics.findMany({
+        where:{deletedAt:{gt:sinceDate}},
+        select:{Id:true}
+     })
+     return {
+        serverTime: new Date().toISOString(), 
+        updated,
+        deleted
+     }
+  }
+   async hasUpdates(since?: string) {
+     console.log('Received since:', since);
+    const sinceDate = since ? new Date(since) : new Date(0);
+    console.log('Parsed sinceDate:', sinceDate);
+    const count = await this.prismaService.lyrics.count({
+      where: {
+        OR: [
+          { updatedAt: { gt: sinceDate } },
+          { deletedAt: { gt: sinceDate } }
+        ]
+      }
+    });
+
+    return { hasUpdates: count >= 0 };
   }
 } 

@@ -16,6 +16,7 @@ export class LyricsService {
         return this.lyricsRepo.findAllLyrics();
     }
     async findLyricsById(id:number){
+      console.log('Service id:', id); 
         return await this.lyricsRepo.findLyricsById(id)
     }
     async deleteLyrics(id:number){
@@ -37,5 +38,11 @@ async toggleSongStatus(id: number) {
 }
     async updateLyricStatus(lyricId: number, status: 'APPROVED' | 'REJECTED') {
     return this.lyricsRepo.updateLyricStatus(lyricId, status);
+  }
+  async hasUpdates(since?:string){
+    return await this.lyricsRepo.hasUpdates(since)
+  }
+  async syncLyrics(since?:string){
+    return await this.lyricsRepo.syncLyrics(since)
   }
 }

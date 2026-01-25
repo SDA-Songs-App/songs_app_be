@@ -78,10 +78,10 @@ interface Artist {
   const [selectedArtist, setSelectedArtist] = useState("");
   const [notification, setNotifications] = useState<Notifications[]>([]);
   const [loading, setLoading] = useState(true);
-  const languages = [...new Set(allSongs.map(song => song.language))];
-  const artists = [...new Set(allSongs.map(song => song.artist))];
   const [songs, setSongs] = useState<Song[]>([]);
     const [song, setSong] = useState<Song[]>([]);
+     const languages = [...new Set(songs.map(song => song.language))];
+  const artists = [...new Set(songs.map(song => song.Artist?.name).filter(Boolean))];
   // Dashboard stats
   const songIcons = {
      songIcon:'🎵',
@@ -95,10 +95,10 @@ interface Artist {
     { title: "Total Albums", value: 56, icon: "💿" },
   ];
   // Filter logic
- const filteredSongs = allSongs.filter(song => {
+ const filteredSongs = songs.filter(song => {
   return (
     (selectedLang === "" || song.language === selectedLang) &&
-    (selectedArtist === "" || song.artist === selectedArtist)
+    (selectedArtist === "" || song.Artist?.name === selectedArtist)
   );
 });
 
@@ -304,7 +304,7 @@ const uniqueArtists = new Set(activeSongs.map(song => song.Artist?.Id)).size;
           ))}
         </select>
 
-        <select
+         <select
           value={selectedArtist}
           onChange={(e) => setSelectedArtist(e.target.value)}
           className="filter-input"
@@ -313,7 +313,7 @@ const uniqueArtists = new Set(activeSongs.map(song => song.Artist?.Id)).size;
           {artists.map((artist, i) => (
             <option key={i} value={artist}>{artist}</option>
           ))}
-        </select>
+        </select> 
       </div>
       {/* Lyrics contents  Table */}
       <table className="songs-table">
@@ -330,7 +330,7 @@ const uniqueArtists = new Set(activeSongs.map(song => song.Artist?.Id)).size;
         </thead>
 
         <tbody>
-          {songs.map(song => (
+          {filteredSongs.map(song => (
             <tr
               key={song.Id}
               className={song.deletedAt ? "deactivated-row" : ""}

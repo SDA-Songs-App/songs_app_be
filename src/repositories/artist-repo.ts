@@ -1,8 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { error } from 'console';
 import { PrismaService } from 'prisma/prisma-service';
 import { CreateArtistDto } from 'src/artist/dto/create-artist-dto';
-
 @Injectable()
 export class ArtistRepository {
   constructor(private prismaService: PrismaService) {}
@@ -40,14 +38,12 @@ export class ArtistRepository {
       where:{deletedAt:null}
     });
   }
-
   async update(id: number, updateDto: CreateArtistDto) {
     return this.prismaService.artist.update({
       where: { Id: id },
       data: updateDto,
     });
   }
-
   async delete(id: number) {
     const artist = await this.prismaService.artist.findUnique({
                where:{Id:id}
