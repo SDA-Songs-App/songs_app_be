@@ -9,9 +9,11 @@ async function bootstrap() {
         whitelist:true, 
         forbidNonWhitelisted:false,
         transform:true
-      }),)
+      }),);
+
   app.enableCors();
-    await app.listen(3001, '0.0.0.0');
+  const PORT = process.env.PORT || 3001
+    await app.listen(PORT, '0.0.0.0');
       console.log(`The Application is running on:${await app.getUrl()}`);
 }
 bootstrap();

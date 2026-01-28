@@ -62,3 +62,5 @@ MainTree.tsx
 tree.ts
 Tree-site/
 data/
+.env.production
+backup.dump

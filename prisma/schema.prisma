@@ -21,10 +21,6 @@ model Artist {
 
 model LyricsContents {
   Id            Int             @id @default(autoincrement())
-  lyricsId      Int?
-  languageKey   String?
-  status        LyricsStatus?
-  approvedAt    DateTime?
   title         String?
   chorus        String
   verse1        String
@@ -33,10 +29,14 @@ model LyricsContents {
   verse4        String
   verse5        String
   verse6        String
-  Lyrics        Lyrics?         @relation(fields: [lyricsId], references: [Id])
-  localization  Localizations?  @relation(fields: [languageKey], references: [language_key])
+  lyricsId      Int?
+  languageKey   String?
+  approvedAt    DateTime?
   approvedById  Int?
+  status        LyricsStatus?
   approvedBy    User?           @relation("ApprovedLyrics", fields: [approvedById], references: [Id])
+  localization  Localizations?  @relation(fields: [languageKey], references: [language_key])
+  Lyrics        Lyrics?         @relation(fields: [lyricsId], references: [Id])
   Notifications Notifications[]
 
   @@map("LyricsContents")
@@ -62,21 +62,15 @@ model Lyrics {
   albumId        Int
   artistId       Int
   audioFileUrl   String
-  language       LANGUAGES        @default(ENGLISH)
   createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @default(now()) @updatedAt
+  Category       CATEGORIES       @default(THANKSGIVING)
+  language       LANGUAGES        @default(ENGLISH)
   deletedAt      DateTime?
+  updatedAt      DateTime         @default(now()) @updatedAt
+  Favorites      Favorites[]
   Album          Album            @relation(fields: [albumId], references: [Id])
   Artist         Artist           @relation(fields: [artistId], references: [Id])
-  Category       CATEGORIES       @default(THANKSGIVING)
   LyricsContents LyricsContents[]
-  Favorites      Favorites[]
-}
-
-enum LyricsStatus {
-  PENDING
-  APPROVED
-  REJECTED
 }
 
 model Album {
@@ -93,17 +87,17 @@ model Album {
 
 model User {
   Id             Int              @id @default(autoincrement())
-  firstName      String
-  LastName       String
-  userName       String //firstName + LastName
   email          String           @unique
   password       String
-  role           ROLES            @default(ADMIN)
   phone          String
   createdAt      DateTime         @default(now())
-  Notifications  Notifications[]
+  role           ROLES            @default(ADMIN)
+  LastName       String
+  firstName      String
+  userName       String
   Favorites      Favorites[]
   LyricsContents LyricsContents[] @relation("ApprovedLyrics")
+  Notifications  Notifications[]
 }
 
 model Favorites {
@@ -111,8 +105,8 @@ model Favorites {
   userId    Int
   lyricsId  Int
   createdAt DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [Id])
   Lyrics    Lyrics   @relation(fields: [lyricsId], references: [Id])
+  User      User     @relation(fields: [userId], references: [Id])
 }
 
 model Notifications {
@@ -124,8 +118,14 @@ model Notifications {
   createdAt    DateTime        @default(now())
   superAdminId Int?
   userId       Int?
-  User         User?           @relation(fields: [userId], references: [Id])
   Content      LyricsContents? @relation(fields: [songId], references: [Id])
+  User         User?           @relation(fields: [userId], references: [Id])
+}
+
+enum LyricsStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum LANGUAGES {
