@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
-import { PrismaService } from "../prisma/prisma-service";
+import { PrismaService } from "../prisma/prisma.service";
 import { NotFoundError } from "rxjs";
 import { CreateLocalizationDto } from "src/localization/dto/localization-create-dto";
 @Injectable()

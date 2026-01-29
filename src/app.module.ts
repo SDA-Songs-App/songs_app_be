@@ -15,7 +15,7 @@ import { ArtistRepository } from './repositories/artist-repo';
 import { WebSocketModule } from './web-socket/websocket.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
-import { PrismaService } from './prisma/prisma-service';
+import { PrismaService } from './prisma/prisma.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
