@@ -106,7 +106,7 @@ interface Artist {
   const { songId } = useParams<{ songId: string }>();
   const handleToggleStatus = async (id: number) => {
      try {
-    const res = await fetch(`http://127.0.0.1:3001/lyrics/${id}/toggle`, {
+    const res = await fetch(`https://sda-songs-be.onrender.com/lyrics/${id}/toggle`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -133,7 +133,7 @@ interface Artist {
   useEffect(() => {
   const getNotifications = async () => {
     try {
-      const res = await fetch("http://localhost:3001/notifications", {
+      const res = await fetch("https://sda-songs-be.onrender.com/notifications", {
         headers: {
           Authorization: `Bearer ${auth?.token}`
         }
@@ -149,7 +149,7 @@ interface Artist {
   };
   const getSongs = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:3001/lyrics", {
+      const res = await fetch("https://sda-songs-be.onrender.com/lyrics", {
         headers: { Authorization: `Bearer ${auth?.token}` }
       });
 
@@ -163,7 +163,7 @@ interface Artist {
   };
    const fetchSong = async () => {
     try {
-      const res = await fetch(`http://127.0.0.1:3001/lyrics/${songId}`, {
+      const res = await fetch(`https://sda-songs-be.onrender.com/lyrics/${songId}`, {
         headers: { Authorization: `Bearer ${auth?.token}` }
       });
        const data = await res.json();

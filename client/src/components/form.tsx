@@ -54,11 +54,11 @@ const SongForm =  () => {
 useEffect(() =>{
    axios
    
-         .get("http://127.0.0.1:3001/artists")
+         .get("https://sda-songs-be.onrender.com/artists")
          .then((res) =>setArtists(res.data))
          .catch((err) =>console.error(err))
     axios
-          .get("http://127.0.0.1:3001/albums")
+          .get("https://sda-songs-be.onrender.com/albums")
           .then((res) =>setAlbums(res.data))
           .catch((err) =>console.error(err))
 },[])
@@ -121,7 +121,7 @@ const handleChange = (
       albumId:Number(formData.albumId)
     }
   
-  const response = await axios.post("http://127.0.0.1:3001/lyrics", payload)
+  const response = await axios.post("https://sda-songs-be.onrender.com/lyrics", payload)
   console.log("Lyrics created", response.data)
 
   setFormData({

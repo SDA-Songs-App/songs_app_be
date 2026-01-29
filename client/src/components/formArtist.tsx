@@ -27,7 +27,7 @@ const ArtistForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://127.0.0.1:3001/artists",
+        "https://sda-songs-be.onrender.com/artists",
         formData
       );
       console.log("Artist created:", response.data);

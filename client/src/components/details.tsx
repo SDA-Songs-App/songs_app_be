@@ -36,7 +36,7 @@ function Details() {
     const fetchSong = async () => {
       if (!id) return;
       try {
-        const res = await fetch(`http://127.0.0.1:3001/lyrics/${id}`, {
+        const res = await fetch(`https://sda-songs-be.onrender.com/lyrics/${id}`, {
           headers: { Authorization: `Bearer ${auth?.token}` },
         });
         if (!res.ok) throw new Error("Failed to fetch song");
@@ -52,7 +52,7 @@ function Details() {
   if (!song) return <p>Loading...</p>;
 const updateLyricStatus = async (lyricId: number, status: "APPROVED" | "REJECTED") => {
   try {
-    const res = await fetch(`http://127.0.0.1:3001/lyrics/${id}/status`, {
+    const res = await fetch(`https://sda-songs-be.onrender.com/lyrics/${id}/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

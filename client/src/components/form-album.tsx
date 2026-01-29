@@ -33,7 +33,7 @@ const AlbumForm = () => {
     }
     try {
       const response = await axios.post(
-        "http://127.0.0.1:3001/albums",
+        "https://sda-songs-be.onrender.com/albums",
         payload
       );
       console.log("Album created:", response.data);
