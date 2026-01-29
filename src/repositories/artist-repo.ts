@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma-service';
+import { PrismaService } from '../prisma/prisma-service';
 import { CreateArtistDto } from 'src/artist/dto/create-artist-dto';
 @Injectable()
 export class ArtistRepository {

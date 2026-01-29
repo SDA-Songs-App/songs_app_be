@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LyricsRepository } from 'src/repositories/lyrics-repo';
 import { CreateLyricsDto } from './dto/create-lyrics-dto';
 import { Certificate } from 'crypto';
-import { PrismaService } from 'prisma/prisma-service';
+import { PrismaService } from '../prisma/prisma-service';
 
 @Injectable()
 export class LyricsService {

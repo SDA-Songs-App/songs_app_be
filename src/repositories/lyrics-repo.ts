@@ -1,5 +1,5 @@
 import { BadRequestException, Delete, Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "prisma/prisma-service";
+import { PrismaService } from "../prisma/prisma-service";
 import { LANGUAGE_MAP } from "src/config/lanaguage-mapping";
 import { CreateLyricsDto } from "src/lyrics/dto/create-lyrics-dto";
 import { UpdateLyricsDto } from "src/lyrics/dto/update-lyrics-dto";
