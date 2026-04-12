@@ -13,4 +13,6 @@ export class CreateArtistDto {
   @IsOptional()
   @IsString()
   imageUrl?: string;
+  @IsString()
+  languageKey:string;
 }

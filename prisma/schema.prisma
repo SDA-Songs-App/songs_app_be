@@ -17,6 +17,7 @@ model Artist {
   deletedAt DateTime?
   Album     Album[]
   Lyrics    Lyrics[]
+  languageKey String?
 }
 
 model LyricsContents {

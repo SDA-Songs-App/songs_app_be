@@ -20,6 +20,7 @@ export class ArtistRepository {
             genre: createDto.genre,
             bio: createDto.bio,
             imageUrl: createDto.imageUrl,
+            languageKey:createDto.languageKey
           },
           include: {
             Album: true,
