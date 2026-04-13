@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ArtistRepository } from 'src/repositories/artist-repo';
+import { ArtistRepository } from '../repositories/artist-repo';
 import { CreateArtistDto } from './dto/create-artist-dto';
 
 @Injectable()

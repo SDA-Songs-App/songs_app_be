@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { LyricsRepository } from 'src/repositories/lyrics-repo';
+//import { LyricsRepository } from 'src/repositories/lyrics-repo';
 import { CreateLyricsDto } from './dto/create-lyrics-dto';
 import { Certificate } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
+import { LyricsRepository } from '../repositories/lyrics-repo';
+import { CreateAlbumDto } from '../album/dto/create-album-dto';
 
 @Injectable()
 export class LyricsService {

@@ -1,9 +1,9 @@
 import { BadRequestException, Delete, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { LANGUAGE_MAP } from "src/config/lanaguage-mapping";
-import { CreateLyricsDto } from "src/lyrics/dto/create-lyrics-dto";
-import { UpdateLyricsDto } from "src/lyrics/dto/update-lyrics-dto";
-import { SocketGateway } from "src/web-socket/socket.gateway";
+import { LANGUAGE_MAP } from "../config/lanaguage-mapping";
+import { CreateLyricsDto } from "../lyrics/dto/create-lyrics-dto";
+import { UpdateLyricsDto } from "../lyrics/dto/update-lyrics-dto";
+import { SocketGateway } from "../web-socket/socket.gateway";
 
 @Injectable()
 export class LyricsRepository{

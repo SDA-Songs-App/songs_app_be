@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Localization } from 'src/repositories/localization-repo';
+import { Localization } from '../repositories/localization-repo';
 import { CreateLocalizationDto } from './dto/localization-create-dto';
 @Injectable()
 export class LocalizationService {
