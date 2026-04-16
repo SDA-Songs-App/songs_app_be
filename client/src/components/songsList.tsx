@@ -248,7 +248,7 @@ const uniqueArtists = new Set(activeSongs.map(song => song.Artist?.Id)).size;
               
                 <p><strong>Language: </strong>{song.language} </p>
                 <p style={{ margin: 0, fontSize: "0.9rem" }}>
-                  <strong>Title: </strong>{song.LyricsContents[0].title}
+                  <strong>Title: </strong>{song.LyricsContents[0]?.title}
                 </p>
               <p style={{ margin: 0, fontSize: "0.9rem" }}>
                   <strong>Added At: </strong>{song.createdAt}
@@ -336,7 +336,7 @@ const uniqueArtists = new Set(activeSongs.map(song => song.Artist?.Id)).size;
               className={song.deletedAt ? "deactivated-row" : ""}
             >
               <td>{song.Id}</td>
-              <td>{song.LyricsContents[0].title}</td>
+              <td>{song.LyricsContents[0]?.title}</td>
              <td>{song.Artist?.name || "N/A"}</td>
 
               <td>{song.Category}</td>

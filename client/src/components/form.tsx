@@ -4,7 +4,7 @@ import CATEGORIES from "../constants/Categories"
 
 import LyricsContent from "../constants/LyricsContent";
 import axios from "axios"
-import LANGUAGES from "../constants/languages";
+import LANGUAGES from "../components/data/laguage";
 type CreateLyricsForm = {
   albumId: number;
   artistId: number;
@@ -19,7 +19,8 @@ type Artist = {
   genre:string,
   imageUrl:string;
   createdAt:string,
-  deletedAt:string
+  deletedAt:string,
+  languageKey:string
 }
 type Album ={
   Id:number,
@@ -69,7 +70,7 @@ const handleChange = (
 ) => {
   const { name, value, type, files } = e.target as HTMLInputElement;
 
-  // Update lyrics content if index and field are provided
+  // ✅ Handle lyrics content
   if (index !== undefined && field) {
     setFormData(prev => {
       const updatedContents = [...prev.contents];
@@ -79,29 +80,45 @@ const handleChange = (
       };
       return { ...prev, contents: updatedContents };
     });
-  } else {
-    // Handle file input
-    if (type === "file" && files && files[0]) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData(prev => ({
-          ...prev,
-          audioFileUrl: reader.result as string, // base64 string
-        }));
-      };
-      reader.readAsDataURL(file);
-    } else {
-      // Update top-level non-file fields
+    return;
+  }
+
+  // ✅ Handle file upload
+  if (type === "file" && files && files[0]) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
       setFormData(prev => ({
         ...prev,
-        [name]: name === "artistId" || name === "albumId" ? Number(value) : value,
+        audioFileUrl: reader.result as string,
       }));
-    }
+    };
+    reader.readAsDataURL(files[0]);
+    return;
   }
+
+  // ✅ Handle normal fields
+  setFormData(prev => {
+    if (name === "language") {
+      return {
+        ...prev,
+        language: value,
+        artistId: 0, // reset artist when language changes
+      };
+    }
+
+    return {
+      ...prev,
+      [name]:
+        name === "artistId" || name === "albumId"
+          ? Number(value)
+          : value,
+    };
+  });
 };
-
-
+const filteredArtists = artists.filter(
+  (artist) =>
+    artist.languageKey?.toLowerCase() === formData.language?.toLowerCase()
+);
   const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Submitted:", formData);
@@ -167,7 +184,7 @@ const handleChange = (
           <label>Artist</label>
           <select name="artistId" value={formData.artistId} onChange={handleChange}>
             <option value="">Select Artist</option>
-            {artists.map((artist) => (
+            {filteredArtists.map((artist) => (
               <option key={artist.Id} value={artist.Id}>{artist.name}</option>
             ))}
           </select>
@@ -192,10 +209,11 @@ const handleChange = (
               value={formData.language}
               onChange={handleChange}>
             <option value="">Select Language</option>
-            {Object.keys(LANGUAGES)
-              .filter((cat) => isNaN(Number(cat)))
-              .map((lang) => (
-                <option key={lang} value={lang}>{lang.replace(/_/g, " ")}</option>
+            {Object.entries(LANGUAGES)
+         
+              .map(([key, value]) => (
+                <option key={key} value={value}>
+                  {key.replace(/_/g, " ")}</option>
               ))}
           </select>
         </div>
